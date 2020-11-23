@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <title>Document</title>
+    
+</head>
+<body>
+    <script>
+        $(function(){
+            //오늘 날짜
+            var nowDate = new Date();
+            var nowYear = nowDate.getFullYear();
+            var nowMonth = nowDate.getMonth()+1;
+            var nowDay = nowDate.getDate();
+            
+            if(nowMonth < 10){nowMonth = "0" + nowMonth;}
+            if(nowDay < 10){nowDay = "0" + nowMonth;}
+            var today = nowYear + "" + nowMonth + "" + nowDay;
+
+            //어제 날짜
+            nowDate = new Date();
+            var yesterDate = nowDate.getTime() - (1*24*60*60*1000);
+            nowDate.setTime(yesterDate);
+
+            var yesterYear = nowDate.getFullYear();
+            var yesterMonth = nowDate.getMonth() + 1;
+            var yesterDay = nowDate.getDate();
+
+            if(yesterMonth < 10){yesterMonth = "0" + yesterMonth;}
+            if(yesterDay < 10){yesterDay = "0" + yesterDay;}
+            var yester = yesterYear + "" + yesterMonth + "" + yesterDay;
+            
+            //ajax
+            $.ajax({
+                url : "https://a6qsz0b0k7.execute-api.ap-northeast-2.amazonaws.com/2020-11-23/status",
+                type : "get",
+                data : {today : today, yester : yester },
+                dataType : "json",
+                success : function(data){
+                    console.log("good");
+                    console.log(data);
+
+                },
+                error : function(){
+                    console.log('err');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

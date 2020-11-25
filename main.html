@@ -33,21 +33,26 @@
             if(yesterDay < 10){yesterDay = "0" + yesterDay;}
             var yester = yesterYear + "" + yesterMonth + "" + yesterDay;
             
+            var d;
             //ajax
             $.ajax({
                 url : "https://a6qsz0b0k7.execute-api.ap-northeast-2.amazonaws.com/2020-11-23/status",
                 type : "get",
                 data : {today : today, yester : yester },
                 dataType : "json",
+                async : false,
                 success : function(data){
                     console.log("good");
-                    console.log(data);
+                    //console.log(data);
+                    d = data;
 
                 },
                 error : function(){
                     console.log('err');
                 }
             });
+
+            console.log(d);
         });
     </script>
 </body>

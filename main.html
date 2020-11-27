@@ -41,10 +41,10 @@
             $.ajax({
                 url : "https://a6qsz0b0k7.execute-api.ap-northeast-2.amazonaws.com/2020-11-23/status",
                 type : "get",
-                data : {today : today, yester : yester },
+                data : {sel : '0', today : today, yester : yester },
                 dataType : "json",
                 success : function(data){
-                    console.log(data); 
+                    //console.log(data); 
                     const obj = JSON.parse(data);
                     const $items = obj.response.body.items; // item[0] : 오늘, item[1] : 어제
 
@@ -88,13 +88,26 @@
                         $("<td />").text(cgExam > 0 ? `▲${Math.abs(cgExam)}` : `▼${Math.abs(cgExam)}`),
                         $("<td />").text(cgClear > 0 ? `▲${Math.abs(cgClear)}` : `▼${Math.abs(cgClear)}`),
                         $("<td />").text(cgDeath > 0 ? `▲${Math.abs(cgDeath)}` : `▼${Math.abs(cgDeath)}`),
-                        $("<td />").text("-"),
+                        $("<td />").text(),
                     );
                     
                     tb.append(title);
                     tb.append(row);
                     tb.append(cg);
                     $("#statusTable").append(tb);
+                },
+                error : function(){
+                    console.log('err');
+                }
+            });
+
+            $.ajax({
+                url : "https://a6qsz0b0k7.execute-api.ap-northeast-2.amazonaws.com/2020-11-23/status",
+                type : "get",
+                data : {sel : '1', today : today},
+                dataType : "json",
+                success : function(data){
+                    console.log(data);
                 },
                 error : function(){
                     console.log('err');

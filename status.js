@@ -35,7 +35,7 @@ $(function () {
             const $items = obj.response.body.items; // item[0] : 오늘, item[1] : 어제
 
             //today
-            var $stateDt = $items.item[0].stateDt._text; //기준일
+            //var $stateDt = $items.item[0].stateDt._text; //기준일
             var $decideCnt = $items.item[0].decideCnt._text //확진자 수
             var $clearCnt = $items.item[0].clearCnt._text //격리해제 수
             var $examCnt = $items.item[0].examCnt._text //검사진행 수
@@ -85,11 +85,11 @@ $(function () {
             });
             $items.shift();
             //console.log($items);
-            var tb = $("<table/>");
+            var tb = $("<table/ border=1>");
             var title = $("<tr/>").append(
-                $("<td/>").text("지역"),
-                $("<td/>").text("총확진자"),
-                $("<td/>").text("신규확진자")
+                $("<th/>").text("지역"),
+                $("<th/>").text("총확진자"),
+                $("<th/>").text("신규확진자")
             );
             tb.append(title);
             if ($items.length > 0) {
@@ -105,7 +105,7 @@ $(function () {
                     );
                     tb.append(row);
                 }
-                $(".city").append(tb);
+                $(".table").append(tb);
             }
         },
         error: function () {

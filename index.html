@@ -1,11 +1,140 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="status.js"></script>
 </head>
+<style>
+    body{
+        margin: 0%;
+        background: snow;
+    }
+    header h1 {
+        text-align: center;
+        margin-bottom: 50px;
+    }
+
+    header h4 {
+        margin-bottom: 0px;
+    }
+
+    header {
+        border-bottom: 1px solid black;
+        margin-left: 150px;
+        margin-right: 150px;;
+    }
+
+    section {
+        display: grid;
+        grid-template-rows: 800px;
+        grid-template-columns: repeat(2, 1fr);
+        margin-top: 20px;
+        margin-left: 150px;
+        margin-right: 150px;
+        padding-top: 20px;
+    }
+
+    footer {
+        height: 300px;
+        margin-left: 0%;
+        background: white;
+    }
+
+    .status {
+        display: grid;
+        grid-template-rows: repeat(5, 1fr);
+        border-right: 1px solid black;
+    }
+
+    .city {
+        display: grid;
+        grid-template-rows: 4fr 1fr;
+    }
+
+    .item {
+        margin-top: 10px;
+        margin-left: 50px;
+        margin-right: 100px;
+        padding-top: 20px;
+        text-align: center;
+        border-bottom: 1px solid black;
+    }
+
+    .sub {
+        font-size: 20px;
+    }
+
+    .item:nth-child(1){
+        color:red;
+    }
+    .item:nth-child(2){
+        color:orange;
+    }
+    .item:nth-child(3){
+        color:skyblue;
+    }
+    .item:nth-child(5){
+        color:gray;
+    }
+    #decide, #exam, #clear, #death, #total{
+        font-size: 25px;
+    }
+    #incDecide, #incExam, #incClear, #incDeath{
+        font-size: 15px;
+    }
+    .city{
+        margin-left: 200px;
+    }
+    table{
+        width:200px;
+        height:200px;
+    }
+</style>
+
 <body>
+    <header>
+        <h1>코로나 현황</h1>
+        <h4>2020</h4>
+    </header>
+    <section>
+        <div class="status">
+            <div class="item">
+                <div class="sub">확진자</div>
+                <div id="decide"></div>
+                <div id="incDecide"></div>
+            </div>
+            <div class="item">
+                <div class="sub">검사중</div>
+                <div id="exam"></div>
+                <div id="incExam"></div>
+            </div>
+            <div class="item">
+                <div class="sub">격리해제</div>
+                <div id="clear"></div>
+                <div id="incClear"></div>
+            </div>
+            <div class="item">
+                <div class="sub">사망자</div>
+                <div id="death"></div>
+                <div id="incDeath"></div>
+            </div>
+            <div class="item">
+                <div class="sub">누적검사수</div>
+                <div id="total"></div>
+            </div>
+        </div>
+        <div class="city">
+            <div class="table"></div>
+            <div class="button"></div>
+        </div>
+    </section>
+    <footer>
+        <h5>박경민</h5>
+    </footer>
 </body>
+
 </html>

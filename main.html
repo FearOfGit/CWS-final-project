@@ -1,122 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <title>Document</title>
+    <script src="status.js"></script>
     <style>
-        #statusTable{
-            position:absolute;
-            left:40%;
-            width:100%;
+        .status {
+            width: 700px;
+            position: absolute;
+            top: 10%;
+            left: 25%;
+            text-align: center;
+            display: grid;
+            grid-template-rows: repeat(1, 100px);
+            grid-template-columns: repeat(5, 1fr);
+        }
+        .item {
+            border-left: 1px solid black;
+        }
+        .item:nth-child(5) {
+            border-right: 1px solid black;
         }
     </style>
-    <script>
-        $(function(){
-            //오늘 날짜
-            var nowDate = new Date();
-            var nowYear = nowDate.getFullYear();
-            var nowMonth = nowDate.getMonth()+1;
-            var nowDay = nowDate.getDate();
-            
-            if(nowMonth < 10){nowMonth = "0" + nowMonth;}
-            if(nowDay < 10){nowDay = "0" + nowMonth;}
-            var today = nowYear + "" + nowMonth + "" + nowDay;
-
-            //어제 날짜
-            nowDate = new Date();
-            var yesterDate = nowDate.getTime() - (1*24*60*60*1000);
-            nowDate.setTime(yesterDate);
-
-            var yesterYear = nowDate.getFullYear();
-            var yesterMonth = nowDate.getMonth() + 1;
-            var yesterDay = nowDate.getDate();
-
-            if(yesterMonth < 10){yesterMonth = "0" + yesterMonth;}
-            if(yesterDay < 10){yesterDay = "0" + yesterDay;}
-            var yester = yesterYear + "" + yesterMonth + "" + yesterDay;
-            
-            //ajax
-            $.ajax({
-                url : "https://a6qsz0b0k7.execute-api.ap-northeast-2.amazonaws.com/2020-11-23/status",
-                type : "get",
-                data : {sel : '0', today : today, yester : yester },
-                dataType : "json",
-                success : function(data){
-                    //console.log(data); 
-                    const obj = JSON.parse(data);
-                    const $items = obj.response.body.items; // item[0] : 오늘, item[1] : 어제
-
-                    //today
-                    var $stateDt = $items.item[0].stateDt._text; //기준일
-                    var $decideCnt = $items.item[0].decideCnt._text //확진자 수
-                    var $clearCnt = $items.item[0].clearCnt._text //격리해제 수
-                    var $examCnt = $items.item[0].examCnt._text //검사진행 수
-                    var $deathCnt = $items.item[0].deathCnt._text //사망자 수
-                    var $accExamCnt = $items.item[0].accExamCnt._text //누적 검사 수
-                    
-                    //yesterday
-                    var $ydecideCnt = $items.item[1].decideCnt._text //확진자 수
-                    var $yclearCnt = $items.item[1].clearCnt._text //격리해제 수
-                    var $yexamCnt = $items.item[1].examCnt._text //검사진행 수
-                    var $ydeathCnt = $items.item[1].deathCnt._text //사망자 수
-                    var $yaccExamCnt = $items.item[1].accExamCnt._text //누적 검사 수
-
-                    var cgDecide = $decideCnt - $ydecideCnt;
-                    var cgExam = $examCnt - $yexamCnt;
-                    var cgClear = $clearCnt - $yclearCnt;
-                    var cgDeath = $deathCnt - $ydeathCnt;
-
-                    var tb = $("<table border=1/>");
-                    var title = $("<tr/>").append(
-                        $("<td />").text("확진자"),
-                        $("<td />").text("검사중"),
-                        $("<td />").text("격리해제"),
-                        $("<td />").text("사망자"),
-                        $("<td />").text("누적 검사 수")
-                    );
-                    var row = $("<tr />").append(
-                        $("<td />").text($decideCnt),
-                        $("<td />").text($examCnt),
-                        $("<td />").text($clearCnt),
-                        $("<td />").text($deathCnt),
-                        $("<td />").text($accExamCnt),
-                    );
-                    var cg = $("<tr />").append(
-                        $("<td />").text(cgDecide > 0 ? `▲${Math.abs(cgDecide)}` : `▼${Math.abs(cgDecide)}`),
-                        $("<td />").text(cgExam > 0 ? `▲${Math.abs(cgExam)}` : `▼${Math.abs(cgExam)}`),
-                        $("<td />").text(cgClear > 0 ? `▲${Math.abs(cgClear)}` : `▼${Math.abs(cgClear)}`),
-                        $("<td />").text(cgDeath > 0 ? `▲${Math.abs(cgDeath)}` : `▼${Math.abs(cgDeath)}`),
-                        $("<td />").text(),
-                    );
-                    
-                    tb.append(title);
-                    tb.append(row);
-                    tb.append(cg);
-                    $("#statusTable").append(tb);
-                },
-                error : function(){
-                    console.log('err');
-                }
-            });
-
-            $.ajax({
-                url : "https://a6qsz0b0k7.execute-api.ap-northeast-2.amazonaws.com/2020-11-23/status",
-                type : "get",
-                data : {sel : '1', today : today},
-                dataType : "json",
-                success : function(data){
-                    console.log(data);
-                },
-                error : function(){
-                    console.log('err');
-                }
-            });
-        });
-    </script>
 </head>
+
 <body>
-    <div id="statusTable"></div>
+    <div class="status">
+        <div class="item">
+            <div>확진환자</div>
+            <div id="decide"></div>
+            <div id="incDecide"></div>
+        </div>
+        <div class="item">
+            <div>검사중</div>
+            <div id="exam"></div>
+            <div id="incExam"></div>
+        </div>
+        <div class="item">
+            <div>격리해제</div>
+            <div id="clear"></div>
+            <div id="incClear"></div>
+        </div>
+        <div class="item">
+            <div>사망자</div>
+            <div id="death"></div>
+            <div id="incDeath"></div>
+        </div>
+        <div class="item">
+            <div>누적검사수</div>
+            <div id="total"></div>
+        </div>
+    </div>
+    <br>
+    <div class="city"></div>
 </body>
+
 </html>

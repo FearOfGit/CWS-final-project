@@ -7,9 +7,10 @@ $(function () {
     var nowDay = nowDate.getDate();
 
     if (nowMonth < 10) { nowMonth = "0" + nowMonth; }
-    if (nowDay < 10) { nowDay = "0" + nowMonth; }
+    if (nowDay < 10) { nowDay = "0" + nowDay; }
     var today = nowYear + "" + nowMonth + "" + nowDay;
-
+    console.log(today);
+    $("#time").text(today);
     //어제 날짜
     nowDate = new Date();
     var yesterDate = nowDate.getTime() - (1 * 24 * 60 * 60 * 1000);
@@ -19,12 +20,10 @@ $(function () {
     var yesterMonth = nowDate.getMonth() + 1;
     var yesterDay = nowDate.getDate();
 
-    
-
     if (yesterMonth < 10) { yesterMonth = "0" + yesterMonth; }
     if (yesterDay < 10) { yesterDay = "0" + yesterDay; }
     var yester = yesterYear + "" + yesterMonth + "" + yesterDay;
-
+    console.log(yester);
     //ajax
     $.ajax({
         url: "https://a6qsz0b0k7.execute-api.ap-northeast-2.amazonaws.com/2020-11-23/status",
@@ -37,30 +36,18 @@ $(function () {
             const $items = obj.response.body.items; // item[0] : 오늘, item[1] : 어제
 
             //today
+            var $decideCnt = $items.item[0].decideCnt._text //확진자 수
+            var $clearCnt = $items.item[0].clearCnt._text //격리해제 수
+            var $examCnt = $items.item[0].examCnt._text //검사진행 수
+            var $deathCnt = $items.item[0].deathCnt._text //사망자 수
+            var $accExamCnt = $items.item[0].accExamCnt._text //누적 검사 수
 
-            var i;
-            for (i = 0; i < 5; i++) {
-                var $stateDt = $items.item[i].stateDt._text; //기준일
-                if ($stateDt === today)
-                    break;
-            }
-            var $decideCnt = $items.item[i].decideCnt._text //확진자 수
-            var $clearCnt = $items.item[i].clearCnt._text //격리해제 수
-            var $examCnt = $items.item[i].examCnt._text //검사진행 수
-            var $deathCnt = $items.item[i].deathCnt._text //사망자 수
-            var $accExamCnt = $items.item[i].accExamCnt._text //누적 검사 수
-
-            for (i = 0; i < 5; i++) {
-                var $stateDt = $items.item[i].stateDt._text; //기준일
-                if ($stateDt === yester)
-                    break;
-            }
             //yesterday
-            var $ydecideCnt = $items.item[i].decideCnt._text //확진자 수
-            var $yclearCnt = $items.item[i].clearCnt._text //격리해제 수
-            var $yexamCnt = $items.item[i].examCnt._text //검사진행 수
-            var $ydeathCnt = $items.item[i].deathCnt._text //사망자 수
-            var $yaccExamCnt = $items.item[i].accExamCnt._text //누적 검사 수
+            var $ydecideCnt = $items.item[1].decideCnt._text //확진자 수
+            var $yclearCnt = $items.item[1].clearCnt._text //격리해제 수
+            var $yexamCnt = $items.item[1].examCnt._text //검사진행 수
+            var $ydeathCnt = $items.item[1].deathCnt._text //사망자 수
+            var $yaccExamCnt = $items.item[1].accExamCnt._text //누적 검사 수
 
             var cgDecide = $decideCnt - $ydecideCnt;
             var cgExam = $examCnt - $yexamCnt;
@@ -72,10 +59,10 @@ $(function () {
             $("#clear").text($clearCnt);
             $("#death").text($deathCnt);
             $("#total").text($accExamCnt);
-            $("#incDecide").text(cgDecide + cgDecide > 0 ? `${Math.abs(cgDecide)}▲` : `${Math.abs(cgDecide)}▼`);
-            $("#incExam").text(cgExam + cgExam > 0 ? `${Math.abs(cgExam)}▲` : `${Math.abs(cgExam)}▼`);
-            $("#incClear").text(cgClear + cgClear > 0 ? `${Math.abs(cgClear)}▲` : `${Math.abs(cgClear)}▼`);
-            $("#incDeath").text(cgDeath + cgDeath > 0 ? `${Math.abs(cgDeath)}▲` : `${Math.abs(cgDeath)}▼`);
+            $("#incDecide").text(cgDecide + cgDecide > 0 ? `${Math.abs(cgDecide)}▲` : cgDecide == 0 ? "-" : `${Math.abs(cgDecide)}▼`);
+            $("#incExam").text(cgExam + cgExam > 0 ? `${Math.abs(cgExam)}▲` : cgExam == 0 ? "-" : `${Math.abs(cgExam)}▼`);
+            $("#incClear").text(cgClear + cgClear > 0 ? `${Math.abs(cgClear)}▲` : cgClear == 0 ? "-" : `${Math.abs(cgClear)}▼`);
+            $("#incDeath").text(cgDeath + cgDeath > 0 ? `${Math.abs(cgDeath)}▲` : cgDeath == 0 ? "-" : `${Math.abs(cgDeath)}▼`);
         },
         error: function () {
             console.log('err');

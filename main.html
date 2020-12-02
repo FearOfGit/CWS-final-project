@@ -1,61 +1,120 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <title>Document</title>
-    <script src="status.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <style>
-        .status {
-            width: 700px;
-            position: absolute;
-            top: 10%;
-            left: 25%;
-            text-align: center;
-            display: grid;
-            grid-template-rows: repeat(1, 100px);
-            grid-template-columns: repeat(5, 1fr);
+        .combo{
+            margin-bottom: 50px;
         }
-        .item {
-            border-left: 1px solid black;
-        }
-        .item:nth-child(5) {
-            border-right: 1px solid black;
+        a{
+            target: _blank;
         }
     </style>
+    <script>
+        var gubun = null;
+        var cido = null
+        var local = null;
+
+        $(function(){
+            $("#gubun").on("change", function(){
+                gubun = $(this).val();
+                //console.log(gubun);
+            });
+            $("#cido").on("change", function(){
+                cido = $(this).val();
+                //console.log(cido);
+            });
+            $("#local").on("keyup",function(){
+                local = $(this).val();
+                //console.log(local);
+            });
+            $("#button").on("click",function(){
+                $(".text").text("");
+                $(".table").empty();
+                if(gubun !== null && cido !== null && local !== null){
+                    $.ajax({
+                    url : "https://axvxo99b7c.execute-api.ap-northeast-2.amazonaws.com/2020-11-30/hospital",
+                    type : "get",
+                    data : {code: gubun, first: cido, second: local},
+                    dataType : "json",
+                    success : function(data){
+                        console.log(data);
+                        if(data.length > 0){
+                            var tb = $("<table/ border=1>");
+                                var title = $("<tr/>").append(
+                                    $("<th/>").text("병원명"),
+                                    $("<th/>").text("주소"),
+                                    $("<th/>").text("전화번호"),
+                                    $("<th/>").text("링크")
+                                );
+                                tb.append(title);
+                            for(var i in data){
+                                var $name = data[i].yadmNm._text;
+                                var $location = data[i].sidoNm._text + " " + data[i].sgguNm._text;
+                                var $tel = data[i].telno._text;
+                                var $link = "https://search.naver.com/search.naver?where=nexearch&sm=top_hty&fbm=1&ie=utf8&query=" + $name;
+                                var row = $("<tr/>").append(
+                                    $("<td/>").text($name).css("text-align", "center"),
+                                    $("<td/>").text($location).css("text-align", "center"),
+                                    $("<td/>").text($tel).css("text-align", "center"),
+                                    $("<a href='#''>").text("링크").css("text-align", "center").attr('href', $link).attr('target', '_blank')
+                                );
+                                tb.append(row);
+                            }
+                            tb.width("800px").height("100px");
+                            $(".table").append(tb);
+                        }else{
+                            $(".text").text("검색결과가 없습니다.")
+                        }
+                    },
+                    error : function(){
+                        console.log("err");
+                    }
+                    });
+                }else{
+                    console.log("오류");
+                }
+            })
+        });
+    </script>
 </head>
-
 <body>
-    <div class="status">
-        <div class="item">
-            <div>확진환자</div>
-            <div id="decide"></div>
-            <div id="incDecide"></div>
-        </div>
-        <div class="item">
-            <div>검사중</div>
-            <div id="exam"></div>
-            <div id="incExam"></div>
-        </div>
-        <div class="item">
-            <div>격리해제</div>
-            <div id="clear"></div>
-            <div id="incClear"></div>
-        </div>
-        <div class="item">
-            <div>사망자</div>
-            <div id="death"></div>
-            <div id="incDeath"></div>
-        </div>
-        <div class="item">
-            <div>누적검사수</div>
-            <div id="total"></div>
-        </div>
+    <div class="combo">
+        <select name="gubun" id="gubun">
+            <option value="no">구분</option>
+            <option value="A0">국민안심병원</option>
+            <option value="97">코로나검사실시기관</option>
+            <option value="99">코로나선별진료소운영기관</option>
+        </select>
+        <select name="cido" id="cido">
+            <option value="no">시/도</option>
+            <option value="서울">서울</option>
+            <option value="경기">경기</option>
+            <option value="대구">대구</option>
+            <option value="경북">경북</option>
+            <option value="인천">인천</option>
+            <option value="충남">충남</option>
+            <option value="부산">부산</option>
+            <option value="광주">광주</option>
+            <option value="강원">강원</option>
+            <option value="경남">경남</option>
+            <option value="대전">대전</option>
+            <option value="전남">전남</option>
+            <option value="충북">충북</option>
+            <option value="전북">전북</option>
+            <option value="울산">울산</option>
+            <option value="세종">세종</option>
+            <option value="제주">제주</option>
+        </select>
+        <input type="text" id="local">
+        <button id="button">검색</button>
     </div>
-    <br>
-    <div class="city"></div>
+    <div>
+        <div class="text"></div>
+        <div class="table"></div>
+    </div> 
 </body>
-
 </html>

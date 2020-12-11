@@ -24,6 +24,26 @@ $(function () {
     if (yesterDay < 10) { yesterDay = "0" + yesterDay; }
     var yester = yesterYear + "" + yesterMonth + "" + yesterDay;
     console.log(yester);
+
+    var time = new Date();
+    if(time.getHours() < 10){
+        console.log("10시 이전입니다.");
+        today = yester;
+
+        nowDate = new Date();
+        var yesterDate = nowDate.getTime() - (2 * 48 * 120 * 120 * 2000);
+        nowDate.setTime(yesterDate);
+
+        var yesterYear = nowDate.getFullYear();
+        var yesterMonth = nowDate.getMonth() + 1;
+        var yesterDay = nowDate.getDate();
+
+        if (yesterMonth < 10) { yesterMonth = "0" + yesterMonth; }
+        if (yesterDay < 10) { yesterDay = "0" + yesterDay; }
+        yester = yesterYear + "" + yesterMonth + "" + yesterDay;
+        console.log(yester);
+    }
+
     //ajax
     $.ajax({
         url: "https://a6qsz0b0k7.execute-api.ap-northeast-2.amazonaws.com/2020-11-23/status",

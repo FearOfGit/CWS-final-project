@@ -1,51 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="hospital.js"></script>
-    <style>
-        .combo{
-            margin-bottom: 50px;
-        }
-    </style>
+    <script src="js/status.js"></script>
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <div class="combo">
-        <select name="gubun" id="gubun">
-            <option value="no">구분</option>
-            <option value="A0">국민안심병원</option>
-            <option value="97">코로나검사실시기관</option>
-            <option value="99">코로나선별진료소운영기관</option>
-        </select>
-        <select name="cido" id="cido">
-            <option value="no">시/도</option>
-            <option value="서울">서울</option>
-            <option value="경기">경기</option>
-            <option value="대구">대구</option>
-            <option value="경북">경북</option>
-            <option value="인천">인천</option>
-            <option value="충남">충남</option>
-            <option value="부산">부산</option>
-            <option value="광주">광주</option>
-            <option value="강원">강원</option>
-            <option value="경남">경남</option>
-            <option value="대전">대전</option>
-            <option value="전남">전남</option>
-            <option value="충북">충북</option>
-            <option value="전북">전북</option>
-            <option value="울산">울산</option>
-            <option value="세종">세종</option>
-            <option value="제주">제주</option>
-        </select>
-        <input type="text" id="local">
-        <button id="button">검색</button>
-    </div>
-    <div>
-        <div class="text"></div>
-        <div class="table"></div>
-    </div> 
+    <header>
+        <h1>코로나 현황</h1>
+        <h4 id="time">2020</h4>
+    </header>
+    <section>
+        <div class="status">
+            <div class="item">
+                <div class="sub">확진자</div>
+                <div id="decide"></div>
+                <div id="incDecide"></div>
+            </div>
+            <div class="item">
+                <div class="sub">검사중</div>
+                <div id="exam"></div>
+                <div id="incExam"></div>
+            </div>
+            <div class="item">
+                <div class="sub">격리해제</div>
+                <div id="clear"></div>
+                <div id="incClear"></div>
+            </div>
+            <div class="item">
+                <div class="sub">사망자</div>
+                <div id="death"></div>
+                <div id="incDeath"></div>
+            </div>
+            <div class="item">
+                <div class="sub">누적검사수</div>
+                <div id="total"></div>
+            </div>
+        </div>
+        <div class="city">
+            <div class="table"></div>
+            <div class="move"><a href="search.html" target="_blank">Covid-19 병원 정보</a></div>
+        </div>
+    </section>
+    <footer>
+        <h5>클라우드 웹서비스 Final Project</h5>
+    </footer>
 </body>
+
 </html>

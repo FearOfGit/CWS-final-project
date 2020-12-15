@@ -30,8 +30,9 @@
 
     footer {
         height: 300px;
-        margin-left: 0%;
         background: white;
+        padding-top: 100px;
+        text-align: center;
     }
 
     .status {

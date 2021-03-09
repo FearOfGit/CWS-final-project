@@ -21,7 +21,7 @@ $(function () {
         $(".table").empty();
         if (gubun !== null && cido !== null && local !== null) {
             $.ajax({
-                url: "https://axvxo99b7c.execute-api.ap-northeast-2.amazonaws.com/2020-11-30/hospital", //aws API Gateway
+                url: '', //aws API Gateway
                 type: "get",
                 data: { code: gubun, first: cido, second: local },
                 dataType: "json",

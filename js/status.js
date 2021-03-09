@@ -46,7 +46,7 @@ $(function () {
 
     //ajax
     $.ajax({
-        url: "https://a6qsz0b0k7.execute-api.ap-northeast-2.amazonaws.com/2020-11-23/status", //aws API Gateway,
+        url: '', //aws API Gateway,
         type: "get",
         data: { sel: '0', today: today, yester: yester },
         dataType: "json",
@@ -91,7 +91,7 @@ $(function () {
 
 
     $.ajax({
-        url: "https://a6qsz0b0k7.execute-api.ap-northeast-2.amazonaws.com/2020-11-23/status", //aws API Gateway,
+        url: '', //aws API Gateway,
         type: "get",
         data: { sel: '1', today: today },
         dataType: "json",

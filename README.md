@@ -15,7 +15,7 @@
 <https://youtu.be/eoHGUoXA-zY>
 
 ------------------------------------------------------------------
-AWS API Gateway 연결 상태
+AWS API Gateway 연결 상태x
 
 
 
